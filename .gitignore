@@ -1,4 +1,5 @@
 node_modules
 ethereum/deploy.js
 ethereum/build
+ethereum/configs.js
 .next
