@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import factory from '../ethereum/factory';
+import { Card, Button } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
+import { Layout } from '../components/Layout';
 
 class CampaignIndex extends Component {
     // makes the rendering more eficient if used with static
@@ -10,12 +13,27 @@ class CampaignIndex extends Component {
         return { campaigns };
     }
 
+    renderCampaigns() {
+        const items = this.props.campaigns.map(campaign => {
+            return {
+                header: campaign,
+                description: <a>View</a>,
+                fluid: true
+            }
+        })
+
+        return <Card.Group items={items} />
+    }
+
     render() {
         return (
-            <>
-                <p>Campaigns :</p>
-                <p>{this.props.campaigns ? this.props.campaigns.map(item => <span key={item}>{item}</span>) : <p>No campaigns</p>}</p>
-            </>
+            <Layout>
+                <div>
+                    <p>Campaigns :</p>
+                    <Button floated="right" content="Create Campaign" icon="add" primary />
+                    <div>{this.renderCampaigns()}</div>
+                </div>
+            </Layout>
         )
     }
 }
