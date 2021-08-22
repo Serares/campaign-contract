@@ -8,7 +8,7 @@ export const Layout = (props) => {
         <Container style={{marginTop: "10px"}}>
             <header><Header /></header>
             {props.children}
-            <footer>Salz</footer>
+            <footer>Footer</footer>
         </Container>
     )
 
