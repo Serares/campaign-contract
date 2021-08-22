@@ -1,11 +1,13 @@
 import React from "react";
 import { Layout } from '../../components/Layout';
-import factory from '../../ethereum/factory';
+import Campaign from '../../ethereum/campaign';
 
 class CampaignShow extends React.Component {
     // called with props as argument to access query params
     static async getInitialProps(props) {
-        console.log(props.query.campaignAddress);
+        const campaing = Campaign(props.query.campaignAddress);
+        const summary = await campaing.methods.getSummary().call();
+        console.log(summary);
         return {}
     }
 
