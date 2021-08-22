@@ -4,6 +4,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { Form, Button, Input, Message } from 'semantic-ui-react';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
+import { Link, Router } from '../../routes';
 
 class CampaignNew extends React.Component {
     state = {
@@ -15,7 +16,8 @@ class CampaignNew extends React.Component {
     async onSubmit(event) {
         event.preventDefault();
         this.setState({
-            loading: true
+            loading: true,
+            errorMessage: ""
         });
 
         try {
@@ -25,6 +27,7 @@ class CampaignNew extends React.Component {
                 .send({
                     from: accounts[0]
                 });
+            Router.pushRoute("/");
         } catch (err) {
             this.setState({
                 errorMessage: "Transaction error"
@@ -33,8 +36,7 @@ class CampaignNew extends React.Component {
 
         this.setState({
             loading: false
-        })
-
+        });
     }
 
     render() {
