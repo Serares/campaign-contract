@@ -13,6 +13,8 @@ contract CampaignFactory {
     }
 }
 
+// Add feature to delete a request
+// 
 contract Campaign {
     struct Request {
         string description;

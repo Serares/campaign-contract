@@ -5,7 +5,7 @@ import Campaign from '../ethereum/campaign';
 
 class RequestRow extends React.Component {
 
-    async onApprove(event) {
+    async onApprove() {
         const campaign = Campaign(this.props.campaignAddress);
         const accounts = await web3.eth.getAccounts();
         await campaign.methods.approveRequest(this.props.id).send({
@@ -13,12 +13,21 @@ class RequestRow extends React.Component {
         })
     }
 
+    async onFinalize() {
+        const campaign = Campaign(this.props.campaignAddress);
+        const accounts = await web3.eth.getAccounts();
+        await campaign.methods.finalizeRequest(this.props.id).send({
+            from: accounts[0]
+        })
+    }
+
     render() {
         const { Cell, Row } = Table;
-        const { description, value, recipient, approvalCount } = this.props.request;
+        const { description, value, recipient, approvalCount, complete } = this.props.request;
         const { id, approversCount } = this.props;
+        const readyToFinalize = approvalCount > approversCount / 2;
         return (
-            <Row>
+            <Row disabled={complete} positive={readyToFinalize && !complete}>
                 <Cell>
                     {id}
                 </Cell>
@@ -35,14 +44,19 @@ class RequestRow extends React.Component {
                     {approvalCount} / {approversCount}
                 </Cell>
                 <Cell>
-                    <Button color="green" basic onClick={this.onApprove.bind(this)}>
-                        Approve
-                    </Button>
+                    {!complete &&
+                        <Button color="green" basic onClick={this.onApprove.bind(this)}>
+                            Approve
+                        </Button>
+                    }
                 </Cell>
                 <Cell>
-                    <Button color="yellow" basic>
-                        Finalize
-                    </Button>
+                    {
+                        !complete &&
+                        <Button color="yellow" basic onClick={this.onFinalize.bind(this)}>
+                            Finalize
+                        </Button>
+                    }
                 </Cell>
             </Row>
         )
